@@ -17,8 +17,11 @@ class Book(Base):
 
     isbn = Column(String(20), primary_key=True)
     title = Column(String(100))
-    author = relationship("Author", back_populates="books")
+    author_id = Column(Integer, ForeignKey("author.id"))
+    genre_id = Column(Integer, ForeignKey("genre.id"))
+
     genre = relationship("Genre", back_populates="books")
+    author = relationship("Author", back_populates="books")
 
 
 class Genre(Base):
@@ -27,13 +30,18 @@ class Genre(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(20))
 
+    books = relationship("Book", back_populates="genre")
+
 
 class Author(Base):
     __tablename__ = "author"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(50))
+    country_id = Column(Integer, ForeignKey("country.id"))
+
     country = relationship("Country", back_populates="authors")
+    books = relationship("Book", back_populates="author")
 
 
 class Country(Base):
@@ -41,6 +49,8 @@ class Country(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(20))
+
+    authors = relationship("Author", back_populates="country")
 
 
 class User(Base):
@@ -50,13 +60,17 @@ class User(Base):
     name = Column(String(50))
     phone = Column(String(15), unique=True)
     address = Column(String(50))
-    tickets = relationship("Ticket", back_populates="owner")
+    tickets = relationship("Ticket", back_populates="user")
 
 
 class Ticket(Base):
     __tablename__ = "ticket"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    book = relationship("Book", back_populates="tickets")
+    book_id = Column(Integer, ForeignKey("book.isbn"))
+    user_id = Column(Integer, ForeignKey("user.id"))
     date_taken = Column(DateTime, default = datetime.now)
     date_till = Column(DateTime, default = calculate_book_borrow_period)
+    
+    book = relationship("Book")
+    user = relationship("User")
