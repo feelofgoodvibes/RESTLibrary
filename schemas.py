@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Union
 from datetime import datetime
 
 
@@ -55,7 +56,7 @@ class UserBase(BaseModel):
     id: int
     name: str
     phone: str
-    address: str
+    address: Union[str, None] = None
 
 
 class TicketSchema(TicketBase):

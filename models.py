@@ -59,9 +59,11 @@ class User(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(50))
     phone = Column(String(15), unique=True)
-    address = Column(String(50))
+    address = Column(String(50), nullable=True)
     tickets = relationship("Ticket", back_populates="user")
 
+    def __repr__(self):
+        return f"User-{self.id} (Name={self.name}, Phone={self.phone}, Address={self.address})"
 
 class Ticket(Base):
     __tablename__ = "ticket"
