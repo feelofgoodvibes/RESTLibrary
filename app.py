@@ -1,4 +1,3 @@
-from typing import final
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -16,17 +15,23 @@ def get_db():
     finally:
         db.close()
 
+# Country ---------------------------------------------
+
 
 @app.get("/countries/", response_model=list[schemas.Country])
 def get_countries(db: Session = Depends(get_db)):
     countries = crud.get_countries(db)
     return countries
 
+# Genre -----------------------------------------------
+
 
 @app.get("/genres/", response_model=list[schemas.Genre])
 def get_genres(db: Session = Depends(get_db)):
     genres = crud.get_genres(db)
     return genres
+
+# Author ----------------------------------------------
 
 
 @app.get("/authors/", response_model=list[schemas.AuthorSchema])
@@ -44,6 +49,8 @@ def get_country(author_id: int, db: Session = Depends(get_db)):
 
     return author
 
+# Book ---------------------------------------------
+
 
 @app.get("/books/", response_model=list[schemas.BookSchema])
 def get_books(db: Session = Depends(get_db)):
@@ -60,6 +67,8 @@ def get_book(book_id: int, db: Session = Depends(get_db)):
 
     return book
 
+# Ticket -------------------------------------------
+
 
 @app.get("/tickets/", response_model=list[schemas.TicketSchema])
 def get_tickets(db: Session = Depends(get_db)):
@@ -75,6 +84,8 @@ def get_ticket(ticket_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail=f"Ticket with id {ticket_id} does not exists")
 
     return ticket
+
+# User ---------------------------------------------
 
 
 @app.get("/users/", response_model=list[schemas.UserSchema])

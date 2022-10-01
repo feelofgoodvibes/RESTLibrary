@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-import schemas
 from models import Genre, User, Country, Author, Book, Ticket
 
 
