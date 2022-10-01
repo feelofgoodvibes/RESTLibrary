@@ -49,6 +49,16 @@ def get_country(author_id: int, db: Session = Depends(get_db)):
 
     return author
 
+
+@app.post("/authors/", response_model=schemas.AuthorSchema)
+def create_author(author: schemas.AuthorCreate, db: Session = Depends(get_db)):
+    db_author = crud.create_author(db, author)
+
+    if db_author is None:
+        raise HTTPException(status_code=404, detail="Wrong country")
+
+    return db_author
+
 # Book ---------------------------------------------
 
 

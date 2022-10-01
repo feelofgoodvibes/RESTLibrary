@@ -25,6 +25,11 @@ class AuthorBase(BaseModel):
     country: Country
 
 
+class AuthorCreate(BaseModel):
+    name: str
+    country: Union[int, str]
+
+
 class BookBase(BaseModel):
     isbn: str
     title: str
