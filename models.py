@@ -21,6 +21,7 @@ class Book(Base):
 
     genre = relationship("Genre", back_populates="books")
     author = relationship("Author", back_populates="books")
+    tickets = relationship("Ticket")
 
 
 class Genre(Base):

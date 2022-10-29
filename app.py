@@ -62,18 +62,18 @@ def create_author(author: schemas.AuthorCreate, db: Session = Depends(get_db)):
 # Book ---------------------------------------------
 
 
-@app.get("/books/", response_model=list[schemas.BookSchema])
+@app.get("/books/", response_model=list[schemas.BookSchemaFull])
 def get_books(db: Session = Depends(get_db)):
     books = crud.get_books(db)
     return books
     
 
-@app.get("/books/{book_id}", response_model=schemas.BookSchema)
-def get_book(book_id: int, db: Session = Depends(get_db)):
-    book = crud.get_book(db, book_id)
+@app.get("/books/{book_isbn}", response_model=schemas.BookSchemaFull)
+def get_book(book_isbn: int, db: Session = Depends(get_db)):
+    book = crud.get_book(db, book_isbn)
 
     if not book:
-        raise HTTPException(status_code=404, detail=f"Book with id {book_id} does not exists")
+        raise HTTPException(status_code=404, detail=f"Book with id {book_isbn} does not exists")
 
     return book
 

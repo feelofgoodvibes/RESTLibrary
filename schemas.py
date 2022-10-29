@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Union
+from typing import Union, Optional
 from datetime import datetime
 
 
@@ -24,16 +24,17 @@ class AuthorBase(BaseModel):
     name: str
     country: Country
 
-
-class AuthorCreate(BaseModel):
-    name: str
-    country: Union[int, str]
+    class Config:
+        orm_mode = True
 
 
 class BookBase(BaseModel):
     isbn: str
     title: str
     genre: Genre
+
+    class Config:
+        orm_mode = True
 
 
 class BookSchema(BookBase):
@@ -43,18 +44,33 @@ class BookSchema(BookBase):
         orm_mode = True
 
 
-class AuthorSchema(AuthorBase):
-    books: list[BookBase]
+class TicketBase(BaseModel):
+    id: int
+    date_taken: datetime
+    date_till: datetime
 
     class Config:
         orm_mode = True
 
 
-class TicketBase(BaseModel):
-    id: int
-    book: BookSchema
-    date_taken: datetime
-    date_till: datetime
+class BookSchemaFull(BookBase):
+    author: AuthorBase
+    tickets: list[TicketBase]
+
+    class Config:
+        orm_mode = True
+
+
+class AuthorCreate(BaseModel):
+    name: str
+    country: Union[int, str]
+
+
+class AuthorSchema(AuthorBase):
+    books: list[BookBase]
+
+    class Config:
+        orm_mode = True
 
 
 class UserBase(BaseModel):
@@ -66,6 +82,7 @@ class UserBase(BaseModel):
 
 class TicketSchema(TicketBase):
     user: UserBase
+    book: BookSchema
 
     class Config:
         orm_mode = True
