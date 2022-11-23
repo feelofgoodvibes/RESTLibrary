@@ -13,5 +13,8 @@ class Country(CountryBase):
     authors: "list[AuthorBase]"
 
 
+class CountryCreate(BaseModel):
+    name: str
+
 from .author import AuthorBase
 Country.update_forward_refs()

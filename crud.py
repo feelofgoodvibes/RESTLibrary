@@ -3,22 +3,6 @@ from models import Genre, User, Country, Author, Book, Ticket
 from schemas import genre, user, country, author, book, ticket
 
 
-def get_genres(db: Session, limit: int = None, offset: int = None):
-    return db.query(Genre).limit(limit).offset(offset).all()
-
-
-def get_countries(db: Session, limit: int = None, offset: int = None):
-    return db.query(Country).limit(limit).offset(offset).all()
-
-
-def get_author(db: Session, author_id: int):
-    return db.query(Author).filter(Author.id == author_id).first()
-
-
-def get_authors(db: Session, limit: int = None, offset: int = None):
-    return db.query(Author).limit(limit).offset(offset).all()
-
-
 # def create_author(db: Session, author: schemas.AuthorCreate):
 #     if isinstance(author.country, int):
 #         country = db.query(Country).filter(Country.id == author.country).first()
@@ -36,26 +20,21 @@ def get_authors(db: Session, limit: int = None, offset: int = None):
 
 #     return new_author
 
-
-def get_book(db: Session, book_isbn: int):
-    return db.query(Book).filter(Book.isbn == book_isbn).first()
-
-
-def get_books(db: Session, limit: int = None, offset: int = None):
-    return db.query(Book).limit(limit).offset(offset).all()
+def get_collection(db: Session, collection_class, limit: int = None, offset: int = None):
+    '''A uniform method to get all items in collection (all rows of model)'''
+    return db.query(collection_class).limit(limit).offset(offset).all()
 
 
-def get_ticket(db: Session, ticket_id: int):
-    return db.query(Ticket).filter(Ticket.id == ticket_id).first()
+def get_collection_item(db: Session, collection_class, primary_key_field, pk_value):
+    '''A uniform method to get item of collection by it's primary value'''
+    return db.query(collection_class).filter(primary_key_field == pk_value).first()
 
 
-def get_tickets(db: Session, limit: int = None, offset: int = None):
-    return db.query(Ticket).limit(limit).offset(offset).all()
+def create_country(country: country.CountryCreate, db: Session):
+    new_country = Country(name=country.name)
 
+    db.add(new_country)
+    db.commit()
+    db.refresh(new_country)
 
-def get_user(db: Session, user_id: int):
-    return db.query(User).filter(User.id == user_id).first()
-
-
-def get_users(db: Session, limit: int = None, offset: int = None):
-    return db.query(User).limit(limit).offset(offset).all()
+    return new_country
