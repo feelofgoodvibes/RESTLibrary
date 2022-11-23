@@ -38,6 +38,7 @@ def create_author(db: Session, author: schemas.AuthorCreate):
 
     return new_author
 
+
 def get_book(db: Session, book_isbn: int):
     return db.query(Book).filter(Book.isbn == book_isbn).first()
 

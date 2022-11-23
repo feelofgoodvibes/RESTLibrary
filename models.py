@@ -65,6 +65,7 @@ class User(Base):
     def __repr__(self):
         return f"User-{self.id} (Name={self.name}, Phone={self.phone}, Address={self.address})"
 
+
 class Ticket(Base):
     __tablename__ = "ticket"
 
