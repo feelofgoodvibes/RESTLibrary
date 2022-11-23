@@ -20,24 +20,24 @@ def get_db():
 
 
 @app.get("/countries/", response_model=list[country.Country])
-def get_countries(db: Session = Depends(get_db)):
-    countries = crud.get_countries(db)
+def get_countries(limit: int = None, offset: int = None, db: Session = Depends(get_db)):
+    countries = crud.get_countries(db, limit=limit, offset=offset)
     return countries
 
 # Genre -----------------------------------------------
 
 
 @app.get("/genres/", response_model=list[genre.Genre])
-def get_genres(db: Session = Depends(get_db)):
-    genres = crud.get_genres(db)
+def get_genres(limit: int = None, offset: int = None, db: Session = Depends(get_db)):
+    genres = crud.get_genres(db, limit=limit, offset=offset)
     return genres
 
 # Author ----------------------------------------------
 
 
 @app.get("/authors/", response_model=list[author.Author])
-def get_genres(db: Session = Depends(get_db)):
-    authors = crud.get_authors(db)
+def get_genres(limit: int = None, offset: int = None, db: Session = Depends(get_db)):
+    authors = crud.get_authors(db, limit=limit, offset=offset)
     return authors
     
 
@@ -64,8 +64,8 @@ def get_country(author_id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/books/", response_model=list[book.Book])
-def get_books(db: Session = Depends(get_db)):
-    books = crud.get_books(db)
+def get_books(limit: int = None, offset: int = None, db: Session = Depends(get_db)):
+    books = crud.get_books(db, limit=limit, offset=offset)
     return books
     
 
@@ -82,8 +82,8 @@ def get_book(book_isbn: int, db: Session = Depends(get_db)):
 
 
 @app.get("/tickets/", response_model=list[ticket.Ticket])
-def get_tickets(db: Session = Depends(get_db)):
-    tickets = crud.get_tickets(db)
+def get_tickets(limit: int = None, offset: int = None, db: Session = Depends(get_db)):
+    tickets = crud.get_tickets(db, limit=limit, offset=offset)
     return tickets
     
 
@@ -100,8 +100,8 @@ def get_ticket(ticket_id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/users/", response_model=list[user.User])
-def get_users(db: Session = Depends(get_db)):
-    users = crud.get_users(db)
+def get_users(limit: int = None, offset: int = None, db: Session = Depends(get_db)):
+    users = crud.get_users(db, limit=limit, offset=offset)
     return users
     
 
