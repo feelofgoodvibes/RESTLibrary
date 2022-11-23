@@ -1,8 +1,6 @@
 from pydantic import BaseModel
-from book import BookAuthorGenre
 from datetime import datetime
 
-from user import UserBase
 
 
 class TicketBase(BaseModel):
@@ -15,8 +13,20 @@ class TicketBase(BaseModel):
 
 
 class TicketUser(TicketBase):
-    user: UserBase
+    user: "UserBase"
 
 
 class TicketBook(TicketBase):
-    book: BookAuthorGenre
+    book: "BookAuthorGenre"
+
+
+class Ticket(TicketBase):
+    user: "UserBase"
+    book: "BookAuthorGenre"
+
+
+from .book import BookAuthorGenre
+from .user import UserBase
+Ticket.update_forward_refs()
+TicketUser.update_forward_refs()
+TicketBook.update_forward_refs()

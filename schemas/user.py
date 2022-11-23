@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from ticket import TicketBook
 
 
 class UserBase(BaseModel):
@@ -12,5 +11,9 @@ class UserBase(BaseModel):
         orm_mode = True
 
 
-class UserFull(UserBase):
-    tickets: list[TicketBook]
+class User(UserBase):
+    tickets: "list[TicketBook]"
+
+
+from .ticket import TicketBook
+User.update_forward_refs()
